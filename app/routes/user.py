@@ -3,6 +3,12 @@ from ..db import client
 from flask import request, jsonify
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
+import jwt
+import datetime
+
+from app.config import Config
+
+SECRET_KEY_JWT = Config.JWT_SECRET_KEY
 
 @app.route('/api/user/register', methods=['POST'])
 def register_user():
@@ -36,7 +42,16 @@ def login_user():
     try:
         user = client.db.users.find_one({"email": email})
         if user and check_password_hash(user['password'], password):
-            return jsonify({"message": "Login successful"}), 200
+
+            token = jwt.encode(
+                {
+                    "email": email,
+                    "exp": datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=24)
+                },
+                SECRET_KEY_JWT,
+                algorithm="HS256"
+            )
+            return jsonify({"message": "Login successful", "token": token}), 200
         else:
             return jsonify({"error": "Invalid email or password"}), 401
     except Exception as e:
