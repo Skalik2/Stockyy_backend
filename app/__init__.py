@@ -4,4 +4,4 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-from app.routes import user
+from app.routes import user, test, stock
