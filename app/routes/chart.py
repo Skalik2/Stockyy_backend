@@ -186,7 +186,8 @@ def get_stock_details(ticker):
             'dayLow': meta.get('regularMarketDayLow'),
             'volume': meta.get('regularMarketVolume'),
             'marketState': meta.get('exchangeTimezoneName'),
-            'timezone': meta.get('timezone')
+            'timezone': meta.get('timezone'),
+            'exchange': meta.get('fullExchangeName'),
         }
 
         numeric_fields = ['regularMarketPrice', 'previousClose', 
