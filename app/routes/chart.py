@@ -133,7 +133,7 @@ def process_historical_data(chart_response):
         closes = quote_data.get('close', [])
         volumes = quote_data.get('volume', [])
         
-        historical_data = []
+        historical_data = [[]]
         for i in range(len(timestamps)):
             data_point = {
                 "timestamp": timestamps[i],
@@ -143,7 +143,7 @@ def process_historical_data(chart_response):
                 "close": float(closes[i]) if i < len(closes) and closes[i] is not None else None,
                 "volume": int(volumes[i]) if i < len(volumes) and volumes[i] is not None else None
             }
-            historical_data.append(data_point)
+            historical_data[0].append(data_point)
         
         return historical_data
     except Exception as e:
