@@ -1,6 +1,6 @@
 import random
 import requests
-from flask import jsonify, abort
+from flask import jsonify, abort, request
 from app.config import Config
 from app import app
 from flask_caching import Cache
@@ -218,7 +218,9 @@ def get_historical_data(ticker):
     if not ticker:
         abort(400, description="Ticker symbol is required.")
 
-    params = {'interval': '1m', 'range': '1d'}
+    range_param = request.args.get('range', '1d')
+
+    params = {'interval': '1m', 'range': range_param}
     request_url = f"{API_URL}/{ticker}"
 
     try:
